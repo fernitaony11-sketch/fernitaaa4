@@ -3,153 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cek Anggota Pramuka | SMA Dharma Wanita 1 Pare</title>
-
-    <style>
-        body {
-            font-family: "Poppins", Arial, sans-serif;
-            background: #f3f3f3;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .container {
-            background: #ffffff;
-            padding: 30px;
-            width: 90%;
-            max-width: 480px;
-            border-radius: 14px;
-            box-shadow: 0 0 12px rgba(0,0,0,0.15);
-            animation: fadeIn 0.6s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        h2 {
-            text-align: center;
-            margin-bottom: 15px;
-            color: #4a3e2a;
-            font-weight: 700;
-        }
-
-        .subtitle {
-            text-align: center;
-            margin-bottom: 25px;
-            color: #6c6c6c;
-            font-size: 14px;
-        }
-
-        input {
-            width: 100%;
-            padding: 14px;
-            margin: 12px 0;
-            border: 1px solid #bbb;
-            border-radius: 8px;
-            font-size: 15px;
-        }
-
-        button {
-            width: 100%;
-            padding: 14px;
-            background: #8b5a2b;
-            border: none;
-            border-radius: 8px;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            margin-top: 5px;
-        }
-
-        button:hover {
-            background: #6d421f;
-        }
-
-        .result {
-            margin-top: 20px;
-            padding: 18px;
-            border-radius: 8px;
-            display: none;
-            font-size: 15px;
-        }
-
-        .success {
-            background: #d4ffe0;
-            border: 2px solid #2ecc71;
-        }
-
-        .fail {
-            background: #ffd4d4;
-            border: 2px solid #e74c3c;
-        }
-    </style>
+    <title>Absensi Ekstra Paskibra</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="container">
-    <h2>Cek Anggota Pramuka</h2>
-    <p class="subtitle">SMA Dharma Wanita 1 Pare</p>
+    <header>
+        <h1>Absensi Ekstrakurikuler Paskibra</h1>
+        <p>SMK / SMA / SMP (Sesuaikan)</p>
+    </header>
 
-    <input type="text" id="inputData" placeholder="Masukkan Nama atau NIS">
-    <button onclick="checkMember()">Cek Anggota</button>
+    <section class="form-container">
+        <h2>Form Absensi</h2>
 
-    <div id="result" class="result"></div>
-</div>
+        <form id="absenForm">
+            <label for="nama">Nama Anggota:</label>
+            <input type="text" id="nama" required>
 
-<script>
-    // ============================
-    // DATA ANGGOTA PRAMUKA
-    // (Edit sesuai kebutuhan)
-    // ============================
-    const anggota = [
-        { nama: "Rama Wijaya", nis: "202301", kelas: "10A" },
-        { nama: "Sinta Ayu", nis: "202302", kelas: "10B" },
-        { nama: "Bagas Maulana", nis: "202303", kelas: "11A" },
-        { nama: "Dewi Laras", nis: "202304", kelas: "11B" }
-        // Tambah data lain di sini
-    ];
+            <label for="kelas">Kelas:</label>
+            <input type="text" id="kelas" required>
 
-    // ============================
-    // FUNGSI CEK ANGGOTA
-    // ============================
-    function checkMember() {
-        const input = document.getElementById("inputData").value.trim().toLowerCase();
-        const resultBox = document.getElementById("result");
+            <label for="keterangan">Keterangan:</label>
+            <select id="keterangan">
+                <option value="Hadir">Hadir</option>
+                <option value="Izin">Izin</option>
+                <option value="Sakit">Sakit</option>
+                <option value="Alpa">Alpa</option>
+            </select>
 
-        if (input === "") {
-            resultBox.style.display = "block";
-            resultBox.className = "result fail";
-            resultBox.innerHTML = "⚠️ Masukkan nama atau NIS terlebih dahulu.";
-            return;
-        }
+            <button type="submit">Simpan Absensi</button>
+        </form>
+    </section>
 
-        const found = anggota.find(a =>
-            a.nama.toLowerCase().includes(input) ||
-            a.nis.toLowerCase() === input
-        );
+    <section class="table-container">
+        <h2>Data Absensi Hari Ini</h2>
 
-        if (found) {
-            resultBox.style.display = "block";
-            resultBox.className = "result success";
-            resultBox.innerHTML = `
-                ✅ <strong>Anggota ditemukan!</strong><br><br>
-                <b>Nama:</b> ${found.nama}<br>
-                <b>NIS:</b> ${found.nis}<br>
-                <b>Kelas:</b> ${found.kelas}
-            `;
-        } else {
-            resultBox.style.display = "block";
-            resultBox.className = "result fail";
-            resultBox.innerHTML = "❌ Anggota tidak ditemukan.";
-        }
-    }
-</script>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nama</th>
+                    <th>Kelas</th>
+                    <th>Keterangan</th>
+                    <th>Waktu</th>
+                </tr>
+            </thead>
+            <tbody id="absenTable"></tbody>
+        </table>
 
+        <button id="resetData" class="reset-btn">Reset Semua Data</button>
+    </section>
+
+    <footer>
+        <p>© 2025 Absensi Paskibra – Dibuat untuk keperluan Ekstrakurikuler</p>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
